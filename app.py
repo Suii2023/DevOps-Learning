@@ -5,6 +5,5 @@ app.route('/')
 def hello_mate():
     return '<h1>Hello, Mate!</h1>'
 
-
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
