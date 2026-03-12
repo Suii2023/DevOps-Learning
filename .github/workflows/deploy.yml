@@ -1,0 +1,32 @@
+name: CI/CD → Render
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  test-build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.9'
+    
+    - name: Lint & Test
+      run: |
+        pip install flake8 pytest flask
+        flake8 . --count --show-source --statistics
+        echo "No tests yet - all good!"
+    
+    - name: Build Docker (smoke test)
+      run: docker build -t hello-app .
+    
+    - name: Trigger Render Deploy
+      if: github.ref == 'refs/heads/main'
+      run: |
+        # curl -X POST \
+        #   https://api.render.com/v1/services/YOUR_SERVICE_ID/deploys \
+        #   -H "Authorization: Bearer YOUR_RENDER_API_KEY"
