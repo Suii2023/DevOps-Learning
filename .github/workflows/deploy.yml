@@ -25,8 +25,5 @@ jobs:
       run: docker build -t hello-app .
     
     - name: Trigger Render Deploy
-      if: github.ref == 'refs/heads/main'
-      run: |
-        # curl -X POST \
-        #   https://api.render.com/v1/services/YOUR_SERVICE_ID/deploys \
-        #   -H "Authorization: Bearer YOUR_RENDER_API_KEY"
+      run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
+
