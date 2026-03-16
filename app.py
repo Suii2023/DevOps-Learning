@@ -12,7 +12,11 @@
 # 1. IMPORTS - All the tools we need
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy          # Database
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user  # Sessions
+from flask_login import (
+    LoginManager,
+    UserMixin, login_user,
+    login_required, logout_user, current_user
+)  # Sessions
 from werkzeug.security import generate_password_hash, check_password_hash  # Password security
 
 # 2. FLASK APP SETUP
@@ -20,6 +24,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'devops-learning-key-change-in-prod'  # Session encryption
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'     # SQLite file (FREE!)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False             # Performance
+
 
 # 3. DATABASE + LOGIN MANAGER
 db = SQLAlchemy(app)                    # Database engine
@@ -91,4 +96,3 @@ if __name__ == '__main__':
     import os
     port = int(os.environ.get('PORT', 10000))  # Render sets PORT env var
     app.run(host='0.0.0.0', port=port)
-
