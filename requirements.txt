@@ -1,1 +1,4 @@
-Flask==3.0.0
+Flask==3.0.3
+Flask-SQLAlchemy==3.1.1      # Database ORM
+Flask-Login==0.6.3            # Sessions/auth
+Werkzeug==3.0.3               # Password hashing
