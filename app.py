@@ -37,13 +37,13 @@ db = SQLAlchemy(app)                    # Database engine
 login_manager = LoginManager(app)       # Session manager
 login_manager.login_view = 'login'      # Redirect unauth users here
 
+
 # 4. USER MODEL (Database Table)
 class User(UserMixin, db.Model):        # UserMixin = login/logout helpers
-
-
     id = db.Column(db.Integer, primary_key=True)           # Auto ID
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)   # Hashed!
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -62,11 +62,11 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = generate_password_hash(request.form['password'])  # HASH!
-        
+
         if User.query.filter_by(username=username).first():  # Exists?
             flash('Username already exists')
             return redirect(url_for('register'))
-            
+  
         new_user = User(username=username, password=password)
         db.session.add(new_user)
         db.session.commit()  # Saves to users.db!
