@@ -66,7 +66,7 @@ def register():
         if User.query.filter_by(username=username).first():  # Exists?
             flash('Username already exists')
             return redirect(url_for('register'))
-  
+
         new_user = User(username=username, password=password)
         db.session.add(new_user)
         db.session.commit()  # Saves to users.db!
@@ -80,7 +80,8 @@ def register():
 def login():
     if request.method == 'POST':
         user = User.query.filter_by(username=request.form['username']).first()
-        if user and check_password_hash(user.password, request.form['password']):
+        password_ok = check_password_hash(user.password, request.form['password'])
+        if user and password_ok:
             login_user(user)  # Creates secure session!
             return redirect(url_for('dashboard'))
         flash('Invalid credentials')
