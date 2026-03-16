@@ -10,7 +10,7 @@
 # if __name__ == '__main__':
 #     app.run(host='0.0.0.0', port=10000)
 # 1. IMPORTS - All the tools we need
-from flask import ( 
+from flask import (
     Flask, render_template, request,
     redirect, url_for, flash
 )
@@ -39,6 +39,8 @@ login_manager.login_view = 'login'      # Redirect unauth users here
 
 # 4. USER MODEL (Database Table)
 class User(UserMixin, db.Model):        # UserMixin = login/logout helpers
+
+
     id = db.Column(db.Integer, primary_key=True)           # Auto ID
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)   # Hashed!
@@ -46,6 +48,7 @@ class User(UserMixin, db.Model):        # UserMixin = login/logout helpers
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))    # Flask-Login needs this
+
 
 # 5. HOME PAGE - Public landing
 @app.route('/')
