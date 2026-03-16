@@ -80,7 +80,9 @@ def register():
 def login():
     if request.method == 'POST':
         user = User.query.filter_by(username=request.form['username']).first()
-        password_ok = check_password_hash(user.password, request.form['password'])
+        password_ok = (
+            check_password_hash(user.password, request.form['password'])
+        )
         if user and password_ok:
             login_user(user)  # Creates secure session!
             return redirect(url_for('dashboard'))
