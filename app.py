@@ -10,20 +10,26 @@
 # if __name__ == '__main__':
 #     app.run(host='0.0.0.0', port=10000)
 # 1. IMPORTS - All the tools we need
-from flask import Flask, render_template, request, redirect, url_for, flash
-from flask_sqlalchemy import SQLAlchemy          # Database
+from flask import ( 
+    Flask, render_template, request,
+    redirect, url_for, flash
+)
+from flask_sqlalchemy import SQLAlchemy  # Database
 from flask_login import (
     LoginManager,
     UserMixin, login_user,
     login_required, logout_user, current_user
 )  # Sessions
-from werkzeug.security import generate_password_hash, check_password_hash  # Password security
+from werkzeug.security import (
+    generate_password_hash,
+    check_password_hash
+)  # Password security
 
 # 2. FLASK APP SETUP
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'devops-learning-key-change-in-prod'  # Session encryption
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'     # SQLite file (FREE!)
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False             # Performance
+app.config['SECRET_KEY'] = 'devops-learning-key-change-in-prod'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
 # 3. DATABASE + LOGIN MANAGER
@@ -46,6 +52,7 @@ def load_user(user_id):
 def home():
     return render_template('home.html')    # Shows login/register links
 
+
 # 6. REGISTER - Create new user
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -64,6 +71,7 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html')  # Show form
 
+
 # 7. LOGIN - Authenticate user
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -75,11 +83,13 @@ def login():
         flash('Invalid credentials')
     return render_template('login.html')
 
+
 # 8. DASHBOARD - PROTECTED PAGE
 @app.route('/dashboard')
 @login_required  # BLOCKS unauth users!
 def dashboard():
     return render_template('dashboard.html', username=current_user.username)
+
 
 # 9. LOGOUT
 @app.route('/logout')
@@ -88,9 +98,11 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
+
 # 10. CREATE DATABASE (runs once)
 with app.app_context():
     db.create_all()  # Makes users.db table
+
 
 if __name__ == '__main__':
     import os
